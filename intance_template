@@ -1,0 +1,16 @@
+resource "aws_instance" "INSTANCE_DEMO" {
+        key_name = "test_keypair"
+        ami = "ami-021d41cbdefc0c994"
+        security_groups = ["sg-02ebf81c9fd2d0b68"]
+        subnet_id = "subnet-0c59a465aaea21d4a"
+        instance_type = "t2.micro"
+	user_data = "${file("web_data")}"
+
+	provisioner "local-exec" {
+		command = "echo ${aws_instance.INSTANCE_DEMO.public_ip} > toto"
+	}
+
+        tags = {
+                Name = "INSTANCE_DEMO"
+        }
+}
